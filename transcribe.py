@@ -8,10 +8,11 @@ def sample_long_running_recognize(filename="two_seconds_recording.wav",
     data_folder_path="./data", transcript_folder_path="./transcripts",
     enable_speaker_diarization=True, diarization_speaker_count=3,
     model=None):
+    """This function reads a file in the 'data' folder and writes the corresponding transcript in the 'transcripts' folder."""
     
     client = speech_v1p1beta1.SpeechClient()
 
-    # The language of the supplied audio
+    # configurations
     language_code = "en-US"
     config = {
         "enable_speaker_diarization": enable_speaker_diarization,
@@ -35,12 +36,11 @@ def sample_long_running_recognize(filename="two_seconds_recording.wav",
     print(u"Transcript: {}".format(response.results[0].alternatives[0].transcript))
 
     # diarization
+    result = response.results[1]
+    alternative = result.alternatives[0]
     diarized_transcript = ""
     previous_speaker = -1
     current_speaker = -1
-
-    result = response.results[1]
-    alternative = result.alternatives[0]
     for word in alternative.words:
         current_speaker = word.speaker_tag
         if (current_speaker != previous_speaker):
