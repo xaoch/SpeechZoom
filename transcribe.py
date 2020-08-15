@@ -1,14 +1,16 @@
 from google.cloud import speech_v1p1beta1
 import io
+import json
 
 import pdb
 
 
-def sample_long_running_recognize(filename="two_seconds_recording.wav",
+def sample_long_running_recognize(filename,
     data_folder_path="./data", transcript_folder_path="./transcripts",
-    enable_speaker_diarization=True, diarization_speaker_count=3,
-    model=None):
-    """This function reads a file in the 'data' folder and writes the corresponding transcript in the 'transcripts' folder."""
+    confidences_folder_path = "./confidences",
+    enable_speaker_diarization=True, diarization_speaker_count=1,
+    model=None, enable_word_confidence=True):
+    """This function reads an audio file and reports its transcript and the corresponding confidences"""
     
     client = speech_v1p1beta1.SpeechClient()
 
@@ -17,7 +19,9 @@ def sample_long_running_recognize(filename="two_seconds_recording.wav",
     config = {
         "enable_speaker_diarization": enable_speaker_diarization,
         "diarization_speaker_count": diarization_speaker_count,
-        "language_code": language_code
+        "language_code": language_code,
+        "enable_word_confidence": enable_word_confidence,
+        "enable_automatic_punctuation":True
     }
     if model is not None:
         config["model"] = model
@@ -31,11 +35,12 @@ def sample_long_running_recognize(filename="two_seconds_recording.wav",
 
     print(u"Waiting for operation to complete...")
     response = operation.result()
-
+ 
     # transcript
     print(u"Transcript: {}".format(response.results[0].alternatives[0].transcript))
-
+    
     # diarization
+    confidences = {}
     result = response.results[1]
     alternative = result.alternatives[0]
     diarized_transcript = ""
@@ -47,10 +52,19 @@ def sample_long_running_recognize(filename="two_seconds_recording.wav",
             previous_speaker = current_speaker
             diarized_transcript += "\n[" + str(previous_speaker) + "]\n"
         diarized_transcript += word.word + " "
+        if enable_word_confidence:
+            confidences[word.word] = word.confidence
 
-    transcript_name = transcript_folder_path + "/transcript_" + filename.split(".")[0] + ".txt"
-    with open(transcript_name, 'w') as transcript_file:
+    # report transcript in new file
+    transcript_path = transcript_folder_path + "/transcript_" + filename.split(".")[0] + ".txt"
+    with open(transcript_path, 'w') as transcript_file:
         transcript_file.write(diarized_transcript)
+
+    # report confidences
+    if enable_word_confidence:
+        confidences_path = confidences_folder_path + "/confidences_" + filename.split(".")[0] + ".txt"
+        with open(confidences_path, 'w') as confidence_file:
+            json.dump(confidences, confidence_file)
 
 
 
