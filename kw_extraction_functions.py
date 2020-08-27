@@ -1,5 +1,7 @@
 import re
 
+import pdb
+
 
 def preprocess_dialogue(string_text):
 	preprocessing = re.sub(r"\n\[[0-9]\]\n", "", string_text)
@@ -18,6 +20,7 @@ def rake_method(filename, data_folder_path="./transcripts"):
 	r = Rake()
 	r.extract_keywords_from_text(preprocessed_transcript)
 	ranked_phrases = r.get_ranked_phrases()
+	#pdb.set_trace()
 
 	print("ranked phrases:")
 	print(ranked_phrases)
@@ -38,8 +41,18 @@ def swisscom_method(filename, data_folder_path="./transcripts", nb_phrases=10):
 	pos_tagger = launch.load_local_corenlp_pos_tagger()
 
 	kp = launch.extract_keyphrases(embedding_distributor, pos_tagger, preprocessed_transcript, nb_phrases, 'en')
+	#pdb.set_trace()
 
-	print("ranked phrases:")
-	print(kp)
+	print("Top", len(kp[0]), "keyphrases:")
+	print(kp[0])
+	print("For each keyphrase, the associated relevance score:")
+	print(kp[1])
+	print("For each keyphrase a list of alias (other candidates very similar to the one selected as keyphrase):")
+	print(kp[2])
 
 	return kp
+
+
+
+
+

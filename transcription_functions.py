@@ -9,7 +9,7 @@ def sample_long_running_recognize(filename,
     data_folder_path="./data", transcript_folder_path="./transcripts",
     confidences_folder_path = "./confidences",
     enable_speaker_diarization=True, diarization_speaker_count=1,
-    model=None, enable_word_confidence=True):
+    model=None, enable_word_confidence=True, use_enhanced=False):
     """This function reads an audio file and reports its transcript and the corresponding confidences"""
     
     client = speech_v1p1beta1.SpeechClient()
@@ -21,9 +21,10 @@ def sample_long_running_recognize(filename,
         "diarization_speaker_count": diarization_speaker_count,
         "language_code": language_code,
         "enable_word_confidence": enable_word_confidence,
-        "enable_automatic_punctuation":True
+        "enable_automatic_punctuation":True,
+        "use_enhanced": use_enhanced
     }
-    if model is not None:
+    if (model is not None) and (model != "none") :
         config["model"] = model
     
     local_file_path = data_folder_path + "/" + filename
@@ -41,19 +42,31 @@ def sample_long_running_recognize(filename,
     
     # diarization
     confidences = {}
-    result = response.results[1]
-    alternative = result.alternatives[0]
+    #result = response.results[1]
+    #alternative = result.alternatives[0]
+    #pdb.set_trace()
     diarized_transcript = ""
     previous_speaker = -1
     current_speaker = -1
-    for word in alternative.words:
-        current_speaker = word.speaker_tag
-        if (current_speaker != previous_speaker):
-            previous_speaker = current_speaker
-            diarized_transcript += "\n[" + str(previous_speaker) + "]\n"
-        diarized_transcript += word.word + " "
-        if enable_word_confidence:
-            confidences[word.word] = word.confidence
+    # if len(response.results) == 2:
+    # 	results_list = [response.results[1]]
+    # elif len(response.results) > 2:
+    # 	results_list = [response.results[-1]] + response.results[1:-1]
+    # else :
+    # 	pdb.set_trace()
+    results_list = [response.results[-1]]
+
+    for result in results_list:
+    	alternative = result.alternatives[0]
+    	for word in alternative.words:
+    		current_speaker = word.speaker_tag
+    		if (current_speaker != previous_speaker):
+    			previous_speaker = current_speaker
+    			diarized_transcript += "\n[" + str(previous_speaker) + "]\n"
+    		diarized_transcript += word.word + " "
+    		if enable_word_confidence:
+    			confidences[word.word] = word.confidence
+
 
     # report transcript in new file
     transcript_path = transcript_folder_path + "/transcript_" + filename.split(".")[0] + ".txt"
@@ -65,6 +78,8 @@ def sample_long_running_recognize(filename,
         confidences_path = confidences_folder_path + "/confidences_" + filename.split(".")[0] + ".txt"
         with open(confidences_path, 'w') as confidence_file:
             json.dump(confidences, confidence_file)
+
+    #pdb.set_trace()
 
 
 
