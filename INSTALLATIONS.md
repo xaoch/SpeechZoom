@@ -17,12 +17,14 @@ This variable only applies to your current shell session, so if you open a new s
 
 ##for RAKE mehod:
 
-nltk
+install nltk: ``pip install nltk``
 rake-nltk: ``pip install rake-nltk``
 
 
-##for SWISSCOM method:
+##for EMBEDRANK method:
 (steps taken from https://github.com/swisscom/ai-research-keyphrase-extraction)
+
+First, download [this github repository](https://github.com/swisscom/ai-research-keyphrase-extraction)
 
 1. Download full Stanford CoreNLP Tagger version 3.8.0
 http://nlp.stanford.edu/software/stanford-corenlp-full-2018-02-27.zip
@@ -71,3 +73,12 @@ nltk.download('punkt')
         * set your model_path to the pretrained model
         your_path_to_model/wiki_bigrams.bin (if you choosed wiki_bigrams.bin)
     * rename config.ini.template to config.ini
+
+
+##for SIFRANK method:
+(steps taken from https://github.com/sunyilgdx/SIFRank)
+
+First, download [this github repository](https://github.com/sunyilgdx/SIFRank)
+
+* download ELMo ``elmo_2x4096_512_2048cnn_2xhighway_options.json`` and ``elmo_2x4096_512_2048cnn_2xhighway_weights.hdf5`` from [here](https://allennlp.org/elmo) , and save it to the ``auxiliary_data/`` directory
+* download StanfordCoreNLP ``stanford-corenlp-full-2018-02-27`` from [here](https://stanfordnlp.github.io/CoreNLP/), and save it to anywhere
