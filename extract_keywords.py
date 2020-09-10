@@ -24,7 +24,7 @@ parser.add_option("-n", "--nb_phrases", dest="nb_phrases", default="10",
                   help="Number of phrases to detect.", metavar="NB_PHRASES")
 # split_size
 parser.add_option("-s", "--split_size", dest="split_size", default="-1",
-                  help="Number of sentences in each split (-1 == no split)", metavar="SPLIT_SIZE")
+                  help="Number of sentences in each split (-1 == no split).", metavar="SPLIT_SIZE")
 # max_length
 parser.add_option("-l", "--max_length", dest="max_length", default="3",
                   help="Max number of words in the keyphrases in output. (only for the 'rake' method)", metavar="MAX_LENGTH")

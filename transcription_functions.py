@@ -2,8 +2,6 @@ from google.cloud import speech_v1p1beta1
 import io
 import json
 
-import pdb
-
 
 def sample_long_running_recognize(filename,
     data_folder_path="./data", transcript_folder_path="./transcripts",
@@ -42,18 +40,9 @@ def sample_long_running_recognize(filename,
     
     # diarization
     confidences = {}
-    #result = response.results[1]
-    #alternative = result.alternatives[0]
-    #pdb.set_trace()
     diarized_transcript = ""
     previous_speaker = -1
     current_speaker = -1
-    # if len(response.results) == 2:
-    # 	results_list = [response.results[1]]
-    # elif len(response.results) > 2:
-    # 	results_list = [response.results[-1]] + response.results[1:-1]
-    # else :
-    # 	pdb.set_trace()
     results_list = [response.results[-1]]
 
     for result in results_list:
@@ -78,9 +67,6 @@ def sample_long_running_recognize(filename,
         confidences_path = confidences_folder_path + "/confidences_" + filename.split(".")[0] + ".txt"
         with open(confidences_path, 'w') as confidence_file:
             json.dump(confidences, confidence_file)
-
-    #pdb.set_trace()
-
 
 
 

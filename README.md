@@ -19,8 +19,13 @@ options:
 ##Keywords detection
 
 command:
-``python extract_keywords.py --file=... --method=...``
+``python extract_keywords.py --file=... --data_dir=... --results_dir=... --method=... --nb_phrases=... --split_size=... --max_length=...``
 
 options:
---file: Name of the transcript file from which to extract keywords. (default: transcript_3_people_recording.txt)
---method: Number of speakers in the recording. (default: rake)
+--file: Name of the transcript file from which to extract keywords. (default: meeting_enhanced.txt)
+--data_dir: Path to the folder where to find the file. (default: ./transcripts)
+--results_dir: Path to the folder where to save the results to. (default: ./results_kw_extractions)
+--method: The method to use for keyword extraction ('rake', 'embedrank' or 'sifrank'). (default: rake)
+--nb_phrases: Number of phrases to detect. (default: 10)
+--split_size: Number of sentences in each split (-1 == no split). (default: -1)
+--max_length: Max number of words in the keyphrases in output.(only for the 'rake' method) (default: 3)
