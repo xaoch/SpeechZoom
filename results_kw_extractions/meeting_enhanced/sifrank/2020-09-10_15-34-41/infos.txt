@@ -1,0 +1,4 @@
+method: sifrank
+text_name: meeting_enhanced
+split_size: 15
+nb_phrases: 15
