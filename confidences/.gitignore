@@ -1,13 +1,3 @@
-/confidences_meeting_part1.txt
-/confidences_meeting_part10.txt
-/confidences_meeting_part11.txt
-/confidences_meeting_part12.txt
-/confidences_meeting_part13.txt
-/confidences_meeting_part2.txt
-/confidences_meeting_part3.txt
-/confidences_meeting_part4.txt
-/confidences_meeting_part5.txt
-/confidences_meeting_part6.txt
-/confidences_meeting_part7.txt
-/confidences_meeting_part8.txt
-/confidences_meeting_part9.txt
+*
+*/
+!.gitignore

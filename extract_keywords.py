@@ -10,22 +10,22 @@ parser = OptionParser()
 # filename
 parser.add_option("-f", "--file", dest="filename", default="meeting_enhanced.txt",
                   help="Name of the transcript file from which to extract keywords.", metavar="FILE")
-# data_dir
+# data directory
 parser.add_option("-d", "--data_dir", dest="data_dir", default="./transcripts",
                   help="Path to the folder where to find the file.", metavar="DATA_DIR")
-# results_dir
+# results directory
 parser.add_option("-r", "--results_dir", dest="results_dir", default="./results_kw_extractions",
                   help="Path to the folder where to save the results to.", metavar="RESULTS_DIR")
 # method
 parser.add_option("-m", "--method", dest="method", default="rake",
                   help="The method to use for keyword extraction ('rake', 'embedrank' or 'sifrank').", metavar="METHOD")
-# nb_phrases
+# number of phrases
 parser.add_option("-n", "--nb_phrases", dest="nb_phrases", default="10",
                   help="Number of phrases to detect.", metavar="NB_PHRASES")
-# split_size
-parser.add_option("-s", "--split_size", dest="split_size", default="-1",
+# split size
+parser.add_option("-s", "--split_size", dest="split_size", default="10",
                   help="Number of sentences in each split (-1 == no split).", metavar="SPLIT_SIZE")
-# max_length
+# max length
 parser.add_option("-l", "--max_length", dest="max_length", default="3",
                   help="Max number of words in the keyphrases in output. (only for the 'rake' method)", metavar="MAX_LENGTH")
 (options, args) = parser.parse_args()
